@@ -4,6 +4,7 @@ import * as exec from "@actions/exec";
 import * as tc from "@actions/tool-cache";
 import {rmRF} from "@actions/io";
 import * as path from "path";
+import * as fs from 'fs';
 import * as matlab from "./matlab";
 import properties from "./properties.json";
 
@@ -37,7 +38,9 @@ export async function setup(platform: string, architecture: string): Promise<str
         return Promise.reject(Error("Unable to find runner temporary directory."));
     }
     let mpmDest = path.join(runner_temp, `mpm${ext}`);
-    let mpm: string = await tc.downloadTool(mpmUrl, mpmDest);
+    if (!fs.existsSync(mpmDest)){
+        let mpm: string = await tc.downloadTool(mpmUrl, mpmDest);
+    }    
 
     if (platform !== "win32") {
         const exitCode = await exec.exec(`chmod +x "${mpm}"`);
