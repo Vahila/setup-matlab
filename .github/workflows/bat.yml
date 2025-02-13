@@ -93,8 +93,8 @@ jobs:
         id: setup_matlab_2
         uses: ./
         with:
-          release: R2023b
+          release: R2020b
       - name: Check MATLAB version2
         uses: matlab-actions/run-command@v2
         with:
-          command: matlabVer = ver('matlab'); assert(strcmp(matlabVer.Release,'(R2023b)'));
+          command: matlabVer = ver('matlab'); assert(strcmp(matlabVer.Release,'(R2020b)'));
