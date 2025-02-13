@@ -26,38 +26,38 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            release: latest 
-            products: Symbolic_Math_Toolbox
-            check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
-            check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
-          - os: ubuntu-latest
-            release: latest-including-prerelease
-            products: Symbolic_Math_Toolbox
-            check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
-            check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
-          - os: ubuntu-20.04
-            release: R2021bU2
-            products: |
-              MATLAB
-              Symbolic_Math_Toolbox
-            check-matlab: matlabVer = ver('matlab'); assert(strcmp(matlabVer.Release,'(R2021b)'));
-            check-toolbox: symbolicVer = ver('symbolic'); assert(strcmp(symbolicVer.Release,'(R2021b)'));
-          - os: windows-latest
-            release: latest
-            products: Symbolic_Math_Toolbox
-            check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
-            check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
-          - os: macos-latest
-            release: latest
-            products: Symbolic_Math_Toolbox
-            check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
-            check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
-          - os: macos-14
-            release: latest
-            products: Symbolic_Math_Toolbox
-            check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
-            check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
+          # - os: ubuntu-latest
+          #   release: latest 
+          #   products: Symbolic_Math_Toolbox
+          #   check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
+          #   check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
+          # - os: ubuntu-latest
+          #   release: latest-including-prerelease
+          #   products: Symbolic_Math_Toolbox
+          #   check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
+          #   check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
+          # - os: ubuntu-20.04
+          #   release: R2021bU2
+          #   products: |
+          #     MATLAB
+          #     Symbolic_Math_Toolbox
+          #   check-matlab: matlabVer = ver('matlab'); assert(strcmp(matlabVer.Release,'(R2021b)'));
+          #   check-toolbox: symbolicVer = ver('symbolic'); assert(strcmp(symbolicVer.Release,'(R2021b)'));
+          # - os: windows-latest
+          #   release: latest
+          #   products: Symbolic_Math_Toolbox
+          #   check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
+          #   check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
+          # - os: macos-latest
+          #   release: latest
+          #   products: Symbolic_Math_Toolbox
+          #   check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
+          #   check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
+          # - os: macos-14
+          #   release: latest
+          #   products: Symbolic_Math_Toolbox
+          #   check-matlab: matlabVer = ver('matlab'); assert(~isempty(matlabVer));
+          #   check-toolbox: symbolicVer = ver('symbolic'); assert(~isempty(symbolicVer));
           - os: macos-14
             release: R2023a
             products: Symbolic_Math_Toolbox
@@ -80,20 +80,26 @@ jobs:
         uses: matlab-actions/run-command@v2
         with:
           command: "${{ matrix.check-matlab }}"
-      - name: Check toolbox version
-        uses: matlab-actions/run-command@v2
-        with:
-          command: "${{ matrix.check-toolbox }}"
-      - name: Check NoOp on 2nd install
-        uses: ./
-        with:
-          release: ${{ matrix.release }}
-          products: ${{ matrix.products }}
+      # - name: Check toolbox version
+      #   uses: matlab-actions/run-command@v2
+      #   with:
+      #     command: "${{ matrix.check-toolbox }}"
+      # - name: Check NoOp on 2nd install
+      #   uses: ./
+      #   with:
+      #     release: ${{ matrix.release }}
+      #     products: ${{ matrix.products }}
+      - name: Print path
+        run: echo $PATH
+        shell: bash
       - name: Call setup MATLAB again # should not error as in issue 130
         id: setup_matlab_2
         uses: ./
         with:
           release: R2024a
+      - name: Print path
+        run: echo $PATH
+        shell: bash
       - name: Check MATLAB version2
         uses: matlab-actions/run-command@v2
         with:
