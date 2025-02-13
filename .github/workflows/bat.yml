@@ -89,3 +89,11 @@ jobs:
         with:
           release: ${{ matrix.release }}
           products: ${{ matrix.products }}
+      # - name: Call setup MATLAB again # should not error as in issue 130
+      #   id: setup_matlab_2
+      #   uses: ./
+      #   with:
+      #     release: R2023b
+      - name: Run MATLAB Command from 'setup_matlab_2' MATLAB location
+        run: cd "${{ steps.setup_matlab.outputs.matlabroot }}${{ runner.os == 'Windows' && '\\bin' || '/bin' }}" && matlab -batch "matlabroot"
+        shell: bash
