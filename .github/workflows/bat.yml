@@ -97,4 +97,4 @@ jobs:
       - name: Check MATLAB version2
         uses: matlab-actions/run-command@v2
         with:
-          command: matlabVer = ver('matlab'); assert(strcmp(matlabVer.Release,'(R2023a)'));
+          command: matlabVer = ver('matlab'); assert(strcmp(matlabVer.Release,'(R2023b)'));
