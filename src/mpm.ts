@@ -40,15 +40,19 @@ export async function setup(platform: string, architecture: string): Promise<str
     let mpmDest = path.join(runner_temp, `mpm${ext}`);
     if (!fs.existsSync(mpmDest)){
         let mpm: string = await tc.downloadTool(mpmUrl, mpmDest);
-    }    
 
-    if (platform !== "win32") {
-        const exitCode = await exec.exec(`chmod +x "${mpm}"`);
-        if (exitCode !== 0) {
-            return Promise.reject(Error("Unable to set up mpm."));
+        if (platform !== "win32") {
+            const exitCode = await exec.exec(`chmod +x "${mpm}"`);
+            if (exitCode !== 0) {
+                return Promise.reject(Error("Unable to set up mpm."));
+            }
         }
+
+        return mpm;
     }
-    return mpm
+    else{
+        return mpmDest 
+    }
 }
 
 export async function install(mpmPath: string, release: matlab.Release, products: string[], destination: string) {
