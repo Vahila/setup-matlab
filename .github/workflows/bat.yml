@@ -94,6 +94,7 @@ jobs:
         uses: ./
         with:
           release: R2023b
-      - name: Run MATLAB Command from 'setup_matlab_2' MATLAB location
-        run: cd "${{ steps.setup_matlab.outputs.matlabroot }}${{ runner.os == 'Windows' && '\\bin' || '/bin' }}" && matlab -batch "matlabroot"
-        shell: bash
+      - name: Check MATLAB version2
+        uses: matlab-actions/run-command@v2
+        with:
+          command: "matlabroot"
