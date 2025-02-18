@@ -4,7 +4,6 @@ import * as exec from "@actions/exec";
 import * as tc from "@actions/tool-cache";
 import {rmRF} from "@actions/io";
 import * as path from "path";
-import * as fs from 'fs';
 import * as matlab from "./matlab";
 import properties from "./properties.json";
 
@@ -38,21 +37,25 @@ export async function setup(platform: string, architecture: string): Promise<str
         return Promise.reject(Error("Unable to find runner temporary directory."));
     }
     let mpmDest = path.join(runner_temp, `mpm${ext}`);
-    if (!fs.existsSync(mpmDest)){
-        let mpm: string = await tc.downloadTool(mpmUrl, mpmDest);
 
-        if (platform !== "win32") {
-            const exitCode = await exec.exec(`chmod +x "${mpm}"`);
-            if (exitCode !== 0) {
-                return Promise.reject(Error("Unable to set up mpm."));
-            }
+    // Delete mpm file if it exists
+    if (fs.existsSync(mpmDest)) {
+        try {
+            fs.unlinkSync(mpmDest);
+        } catch (err) {
+            return Promise.reject(Error(`Failed to delete existing mpm file: ${err.message}`));
         }
+    }
+    
+    let mpm: string = await tc.downloadTool(mpmUrl, mpmDest);
 
-        return mpm;
+    if (platform !== "win32") {
+        const exitCode = await exec.exec(`chmod +x "${mpm}"`);
+        if (exitCode !== 0) {
+            return Promise.reject(Error("Unable to set up mpm."));
+        }
     }
-    else{
-        return mpmDest 
-    }
+    return mpm
 }
 
 export async function install(mpmPath: string, release: matlab.Release, products: string[], destination: string) {
