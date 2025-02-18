@@ -41,11 +41,7 @@ export async function setup(platform: string, architecture: string): Promise<str
 
     // Delete mpm file if it exists
     if (fs.existsSync(mpmDest)) {
-        try {
-            fs.unlinkSync(mpmDest);
-        } catch (err) {
-            return Promise.reject(Error(`Failed to delete existing mpm file: ${err.message}`));
-        }
+        fs.unlinkSync(mpmDest); 
     }
     
     let mpm: string = await tc.downloadTool(mpmUrl, mpmDest);
