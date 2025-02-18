@@ -4,6 +4,7 @@ import * as exec from "@actions/exec";
 import * as tc from "@actions/tool-cache";
 import {rmRF} from "@actions/io";
 import * as path from "path";
+import * as fs from 'fs';
 import * as matlab from "./matlab";
 import properties from "./properties.json";
 
